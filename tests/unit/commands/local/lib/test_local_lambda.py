@@ -6,7 +6,7 @@ from unittest.mock import Mock, patch
 from parameterized import parameterized, param
 
 from samcli.commands.local.lib.local_lambda import LocalLambdaRunner
-from samcli.commands.local.lib.provider import Function
+from samcli.lib.providers.provider import Function
 from samcli.local.lambdafn.exceptions import FunctionNotFound
 from samcli.commands.local.lib.exceptions import OverridesNotWellDefinedError
 
@@ -144,7 +144,7 @@ class TestLocalLambda_get_aws_creds(TestCase):
         boto3_mock.session.Session.return_value = mock_session
         mock_session.get_credentials.return_value = None
 
-        expected = {}
+        expected = {"region": mock_session.region_name}
         actual = self.local_lambda.get_aws_creds()
         self.assertEqual(expected, actual)
 
